@@ -9,7 +9,8 @@ function validate(s) {
 function isVowel(c) {
   if (c.length > 1) return includesVowel(c);
   validate(c);
-  return vowels.indexOf(c.toLowerCase()) !== -1;
+  // Add support for accents/diacritics
+  return vowels.indexOf(c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) !== -1;
 }
 
 function y(b) {
@@ -29,12 +30,14 @@ function includesVowel(s) {
 
 function startsWithVowel(s) {
   validate(s);
-  return vowels.some(v => s.toLowerCase().startsWith(v));
+  // Add support for accents/diacritics
+  return vowels.some(v => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").startsWith(v));
 }
 
 function endsWithVowel(s) {
   validate(s);
-  return vowels.some(v => s.toLowerCase().endsWith(v));
+  // Add support for accents/diacritics
+  return vowels.some(v => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").endsWith(v));
 }
 
 module.exports = {
